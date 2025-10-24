@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Dryzyashki - твоё новое любимое комьюнити для игр и общения. Присоединяйся к дружелюбному Discord серверу!">
-    <title>Dryzyashki - Discord Комьюнити</title>
+    <title>Dryzyashki - Discord Комьюнити 🎃</title>
     <link rel="icon" type="image/webp" href="assets/favicon.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,18 +20,19 @@
         }
 
         :root {
-            --bg: #0d0d0d;
+            --bg: #0a0a0f;
             --surface: #171717;
             --surface-hover: #1f1f1f;
-            --primary: #5865f2;
-            --primary-hover: #4752c4;
+            --primary: #ff6b00;
+            --primary-hover: #ff8533;
+            --secondary: #9333ea;
             --text: #ffffff;
             --text-secondary: #9ca3af;
             --text-muted: #6b7280;
             --border: #2a2a2a;
             --border-hover: #3a3a3a;
             --shadow: rgba(0, 0, 0, 0.3);
-            --glow: rgba(88, 101, 242, 0.15);
+            --glow: rgba(255, 107, 0, 0.3);
         }
 
         html {
@@ -58,19 +59,19 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--surface);
+            background: var(--primary);
             border-radius: 6px;
             border: 2px solid var(--bg);
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--border-hover);
+            background: var(--primary-hover);
         }
 
         /* Firefox scrollbar */
         * {
             scrollbar-width: thin;
-            scrollbar-color: var(--surface) var(--bg);
+            scrollbar-color: var(--primary) var(--bg);
         }
 
         /* Animated Background */
@@ -105,7 +106,7 @@
             height: 500px;
             border-radius: 50%;
             filter: blur(100px);
-            opacity: 0.1;
+            opacity: 0.15;
             z-index: -1;
             animation: float 15s ease-in-out infinite;
         }
@@ -119,7 +120,7 @@
         .bg-gradient-2 {
             bottom: -200px;
             right: -200px;
-            background: #7c3aed;
+            background: var(--secondary);
             animation-delay: -7s;
         }
 
@@ -139,11 +140,127 @@
             }
         }
 
+        /* Spider Web SVG */
+        .spider-web {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.15;
+            z-index: 1;
+        }
+
+        .web-top-left {
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 300px;
+        }
+
+        .web-top-right {
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 350px;
+            transform: scaleX(-1);
+        }
+
+        .web-bottom-left {
+            bottom: 0;
+            left: 0;
+            width: 280px;
+            height: 280px;
+            transform: scaleY(-1);
+        }
+
+        .web-bottom-right {
+            bottom: 0;
+            right: 0;
+            width: 320px;
+            height: 320px;
+            transform: scale(-1, -1);
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.3;
+            animation: floatAround 20s infinite ease-in-out;
+        }
+
+        .floating-item:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-item:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: -5s;
+        }
+
+        .floating-item:nth-child(3) {
+            bottom: 15%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        .floating-item:nth-child(4) {
+            top: 60%;
+            right: 10%;
+            animation-delay: -15s;
+        }
+
+        .floating-item:nth-child(5) {
+            bottom: 25%;
+            right: 25%;
+            animation-delay: -8s;
+        }
+
+        .floating-item:nth-child(6) {
+            top: 40%;
+            left: 5%;
+            animation-delay: -12s;
+        }
+
+        @keyframes floatAround {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(20px, -30px) rotate(5deg);
+            }
+
+            50% {
+                transform: translate(-20px, 20px) rotate(-5deg);
+            }
+
+            75% {
+                transform: translate(30px, 10px) rotate(3deg);
+            }
+        }
+
         /* Container */
         .container {
             max-width: 900px;
             margin: 0 auto;
             padding: 0 24px;
+            position: relative;
+            z-index: 2;
         }
 
         /* Header */
@@ -152,7 +269,7 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: rgba(13, 13, 13, 0.8);
+            background: rgba(10, 10, 15, 0.9);
             z-index: 100;
             backdrop-filter: blur(10px);
             animation: slideDown 0.5s ease-out;
@@ -240,7 +357,7 @@
         }
 
         nav a:hover {
-            color: var(--text);
+            color: var(--primary);
         }
 
         nav a:hover::after {
@@ -260,6 +377,7 @@
             margin-bottom: 20px;
             line-height: 1.1;
             animation: fadeInUp 0.8s ease-out 0.2s both;
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.3);
         }
 
         .subtitle {
@@ -322,13 +440,14 @@
             background: var(--primary);
             color: white;
             border-color: var(--primary);
+            box-shadow: 0 0 20px var(--glow);
         }
 
         .btn-primary:hover {
             background: var(--primary-hover);
             border-color: var(--primary-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px var(--glow);
+            box-shadow: 0 8px 30px var(--glow);
         }
 
         .btn-primary:active {
@@ -343,7 +462,7 @@
 
         .btn-secondary:hover {
             background: var(--surface-hover);
-            border-color: var(--border-hover);
+            border-color: var(--primary);
             transform: translateY(-2px);
         }
 
@@ -387,6 +506,7 @@
             margin-bottom: 8px;
             line-height: 1;
             transition: transform 0.3s ease;
+            text-shadow: 0 0 15px var(--glow);
         }
 
         .stat:hover .stat-number {
@@ -442,7 +562,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.05), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 0, 0.05), transparent);
             transition: left 0.6s ease;
         }
 
@@ -454,7 +574,7 @@
             border-color: var(--primary);
             background: var(--surface-hover);
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 20px 40px rgba(255, 107, 0, 0.2);
         }
 
         .feature-icon {
@@ -471,11 +591,15 @@
         .feature-icon img {
             width: 32px;
             height: 32px;
-            filter: brightness(0) invert(1);
+            filter: brightness(0) saturate(100%) invert(56%) sepia(86%) saturate(2638%) hue-rotate(360deg) brightness(102%) contrast(105%);
         }
 
         .feature-card:hover .feature-icon {
             transform: rotate(10deg) scale(1.1);
+        }
+
+        .feature-card:hover .feature-icon img {
+            filter: brightness(0) saturate(100%) invert(56%) sepia(86%) saturate(2638%) hue-rotate(360deg) brightness(120%) contrast(105%);
         }
 
         .feature-title {
@@ -562,7 +686,7 @@
         }
 
         .footer-links a:hover {
-            color: var(--text);
+            color: var(--primary);
         }
 
         .footer-links a:hover::after {
@@ -579,13 +703,13 @@
             display: inline-flex;
             align-items: center;
             padding: 6px 12px;
-            background: rgba(88, 101, 242, 0.1);
+            background: rgba(255, 107, 0, 0.15);
             color: var(--primary);
             border-radius: 8px;
             font-size: 0.875rem;
             font-weight: 500;
             margin-bottom: 24px;
-            border: 1px solid rgba(88, 101, 242, 0.2);
+            border: 1px solid rgba(255, 107, 0, 0.3);
             animation: fadeInUp 0.8s ease-out both;
         }
 
@@ -647,13 +771,29 @@
                 justify-content: center;
             }
 
+            .bg-gradient {
+                width: 300px;
+                height: 300px;
+            }
+
             nav {
                 display: none;
             }
 
-            .bg-gradient {
-                width: 300px;
-                height: 300px;
+            .spider-web {
+                opacity: 0.08;
+            }
+
+            .web-top-left,
+            .web-top-right,
+            .web-bottom-left,
+            .web-bottom-right {
+                width: 150px;
+                height: 150px;
+            }
+
+            .floating-item {
+                font-size: 1.5rem;
             }
         }
 
@@ -677,6 +817,74 @@
     <div class="bg-gradient bg-gradient-1"></div>
     <div class="bg-gradient bg-gradient-2"></div>
 
+    <!-- Spider Webs -->
+    <svg class="spider-web web-top-left" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#fff" stroke-width="1" fill="none">
+            <path d="M0,0 L150,150" opacity="0.3" />
+            <path d="M0,50 L130,150" opacity="0.3" />
+            <path d="M0,100 L110,150" opacity="0.3" />
+            <path d="M50,0 L150,130" opacity="0.3" />
+            <path d="M100,0 L150,110" opacity="0.3" />
+            <circle cx="150" cy="150" r="10" opacity="0.4" />
+            <circle cx="150" cy="150" r="30" opacity="0.3" />
+            <circle cx="150" cy="150" r="50" opacity="0.3" />
+            <circle cx="150" cy="150" r="70" opacity="0.2" />
+            <circle cx="150" cy="150" r="90" opacity="0.2" />
+        </g>
+    </svg>
+
+    <svg class="spider-web web-top-right" viewBox="0 0 350 350" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#fff" stroke-width="1" fill="none">
+            <path d="M0,0 L175,175" opacity="0.3" />
+            <path d="M0,60 L150,175" opacity="0.3" />
+            <path d="M0,120 L130,175" opacity="0.3" />
+            <path d="M60,0 L175,150" opacity="0.3" />
+            <path d="M120,0 L175,130" opacity="0.3" />
+            <circle cx="175" cy="175" r="12" opacity="0.4" />
+            <circle cx="175" cy="175" r="35" opacity="0.3" />
+            <circle cx="175" cy="175" r="60" opacity="0.3" />
+            <circle cx="175" cy="175" r="85" opacity="0.2" />
+        </g>
+    </svg>
+
+    <svg class="spider-web web-bottom-left" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#fff" stroke-width="1" fill="none">
+            <path d="M0,0 L140,140" opacity="0.3" />
+            <path d="M0,45 L120,140" opacity="0.3" />
+            <path d="M0,90 L100,140" opacity="0.3" />
+            <path d="M45,0 L140,120" opacity="0.3" />
+            <path d="M90,0 L140,100" opacity="0.3" />
+            <circle cx="140" cy="140" r="9" opacity="0.4" />
+            <circle cx="140" cy="140" r="28" opacity="0.3" />
+            <circle cx="140" cy="140" r="48" opacity="0.3" />
+            <circle cx="140" cy="140" r="68" opacity="0.2" />
+        </g>
+    </svg>
+
+    <svg class="spider-web web-bottom-right" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#fff" stroke-width="1" fill="none">
+            <path d="M0,0 L160,160" opacity="0.3" />
+            <path d="M0,50 L135,160" opacity="0.3" />
+            <path d="M0,100 L115,160" opacity="0.3" />
+            <path d="M50,0 L160,135" opacity="0.3" />
+            <path d="M100,0 L160,115" opacity="0.3" />
+            <circle cx="160" cy="160" r="10" opacity="0.4" />
+            <circle cx="160" cy="160" r="32" opacity="0.3" />
+            <circle cx="160" cy="160" r="55" opacity="0.3" />
+            <circle cx="160" cy="160" r="75" opacity="0.2" />
+        </g>
+    </svg>
+
+    <!-- Floating Halloween Elements -->
+    <div class="floating-elements">
+        <div class="floating-item">🎃</div>
+        <div class="floating-item">👻</div>
+        <div class="floating-item">🦇</div>
+        <div class="floating-item">🕷️</div>
+        <div class="floating-item">🍂</div>
+        <div class="floating-item">🌙</div>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="container">
@@ -685,7 +893,7 @@
                     <div class="logo-icon">
                         <img src="assets/favicon.webp" alt="Dryzyashki Logo">
                     </div>
-                    <span>dryzyashki</span>
+                    <span>dryzyashki 🎃</span>
                 </a>
                 <nav>
                     <a href="#features">возможности</a>
@@ -700,7 +908,7 @@
     <main>
         <section class="hero">
             <div class="container">
-                <div class="tag">✨ твоё новое комьюнити</div>
+                <div class="tag">🎃 хэллоуинское комьюнити</div>
                 <h1>dryzyashki</h1>
                 <p class="subtitle">дружелюбное место для игр, общения и новых знакомств. без токсичности, только
                     атмосфера.</p>
@@ -849,6 +1057,43 @@
         document.querySelectorAll('.feature-card').forEach(card => {
             observer.observe(card);
         });
+
+        // Halloween special effects
+        const createSparkle = () => {
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = Math.random() * window.innerWidth + 'px';
+            sparkle.style.top = Math.random() * window.innerHeight + 'px';
+            sparkle.style.fontSize = '1rem';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '1';
+            sparkle.style.animation = 'sparkleFloat 3s ease-out forwards';
+            document.body.appendChild(sparkle);
+
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        };
+
+        // Add sparkle animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes sparkleFloat {
+                0% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-100px) scale(0.5);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 2000);
     </script>
 </body>
 
