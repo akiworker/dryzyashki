@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dryzyashki - твоё новое любимое комьюнити для игр и общения. Присоединяйся к дружелюбному Discord серверу!">
+    <meta name="description"
+        content="Dryzyashki - твоё новое любимое комьюнити для игр и общения. Присоединяйся к дружелюбному Discord серверу!">
     <title>Dryzyashki - Discord Комьюнити</title>
     <link rel="icon" type="image/webp" href="assets/favicon.webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -79,7 +82,7 @@
             height: 100%;
             z-index: -1;
             opacity: 0.03;
-            background-image: 
+            background-image:
                 linear-gradient(var(--border) 1px, transparent 1px),
                 linear-gradient(90deg, var(--border) 1px, transparent 1px);
             background-size: 50px 50px;
@@ -87,8 +90,13 @@
         }
 
         @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(50px, 50px);
+            }
         }
 
         .bg-gradient {
@@ -116,9 +124,19 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(50px, -50px) scale(1.1); }
-            66% { transform: translate(-50px, 50px) scale(0.9); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(50px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-50px, 50px) scale(0.9);
+            }
         }
 
         /* Container */
@@ -145,6 +163,7 @@
                 transform: translateY(-100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -576,6 +595,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -650,6 +670,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Animated Background -->
     <div class="bg-grid"></div>
@@ -669,7 +690,7 @@
                 <nav>
                     <a href="#features">возможности</a>
                     <a href="#about">о нас</a>
-                    <a href="#join">присоединиться</a>
+                    <a href="https://discord.gg/CP9ajwY3Ww" target="_blank" rel="noopener">присоединиться</a>
                 </nav>
             </div>
         </div>
@@ -681,7 +702,8 @@
             <div class="container">
                 <div class="tag">✨ твоё новое комьюнити</div>
                 <h1>dryzyashki</h1>
-                <p class="subtitle">дружелюбное место для игр, общения и новых знакомств. без токсичности, только атмосфера.</p>
+                <p class="subtitle">дружелюбное место для игр, общения и новых знакомств. без токсичности, только
+                    атмосфера.</p>
                 <div class="button-group">
                     <a href="https://discord.gg/CP9ajwY3Ww" class="btn btn-primary" target="_blank" rel="noopener">
                         <span>присоединиться к discord</span>
@@ -724,21 +746,24 @@
                             <img src="assets/mail.svg" alt="Свободное общение">
                         </div>
                         <h3 class="feature-title">свободное общение</h3>
-                        <p class="feature-description">обсуждай всё, что интересно: от игр и мемов до философии жизни. здесь нет жёстких правил, только уважение.</p>
+                        <p class="feature-description">обсуждай всё, что интересно: от игр и мемов до философии жизни.
+                            здесь нет жёстких правил, только уважение.</p>
                     </div>
                     <div class="feature-card reveal">
                         <div class="feature-icon">
                             <img src="assets/friends.svg" alt="Новые друзья">
                         </div>
                         <h3 class="feature-title">новые друзья</h3>
-                        <p class="feature-description">открытое комьюнити, где легко завести друзей. каждый найдёт свою компанию по интересам.</p>
+                        <p class="feature-description">открытое комьюнити, где легко завести друзей. каждый найдёт свою
+                            компанию по интересам.</p>
                     </div>
                     <div class="feature-card reveal">
                         <div class="feature-icon">
                             <img src="assets/gamepad.svg" alt="Совместные игры">
                         </div>
                         <h3 class="feature-title">совместные игры</h3>
-                        <p class="feature-description">собирай команду для любимых игр, участвуй в турнирах и просто весело проводи время вместе.</p>
+                        <p class="feature-description">собирай команду для любимых игр, участвуй в турнирах и просто
+                            весело проводи время вместе.</p>
                     </div>
                 </div>
             </div>
@@ -749,7 +774,8 @@
             <div class="container">
                 <div class="info-section reveal">
                     <h2>готов стать частью семьи?</h2>
-                    <p>присоединяйся к dryzyashki и стань частью дружного сообщества. никаких сложных анкет — просто нажми кнопку и начни общаться.</p>
+                    <p>присоединяйся к dryzyashki и стань частью дружного сообщества. никаких сложных анкет — просто
+                        нажми кнопку и начни общаться.</p>
                     <a href="https://discord.gg/CP9ajwY3Ww" class="btn btn-primary" target="_blank" rel="noopener">
                         <span>вступить в dryzyashki</span>
                         <span>→</span>
@@ -768,7 +794,7 @@
                     <a href="#about">о нас</a>
                     <a href="https://discord.gg/CP9ajwY3Ww" target="_blank" rel="noopener">discord</a>
                 </div>
-                <div class="copyright">© 2025 dryzyashki. сделано с ❤️</div>
+                <div class="copyright">© 2025 dryzyashki. mady by shatin♥</div>
             </div>
         </div>
     </footer>
@@ -825,4 +851,5 @@
         });
     </script>
 </body>
+
 </html>
