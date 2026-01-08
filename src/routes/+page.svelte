@@ -8,10 +8,12 @@
   import Team from '$lib/components/Team.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import Background from '$lib/components/Background.svelte';
+  import Cursor from '$lib/components/Cursor.svelte';
 </script>
 
 <LoadingScreen />
 <Background />
+<Cursor />
 
 <div class="page">
   <Header />
@@ -26,5 +28,17 @@
 </div>
 
 <style>
-  .page { position: relative; z-index: 1; }
+  .page { 
+    position: relative; 
+    z-index: 1;
+    cursor: none;
+  }
+  
+  :global(body) {
+    cursor: none;
+  }
+  
+  :global(a, button, input, textarea, [role="button"]) {
+    cursor: none !important;
+  }
 </style>

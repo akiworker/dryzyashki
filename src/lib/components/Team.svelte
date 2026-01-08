@@ -323,6 +323,9 @@
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
   }
   
   /* Modal */
