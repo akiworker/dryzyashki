@@ -124,6 +124,12 @@
           {/if}
         </button>
       {/each}
+      
+      <div class="spacer"></div>
+      
+      <div class="graffity-wrapper" class:visible style="--i: 7">
+        <img src="/graffity.webp" alt="Graffity" class="graffity" />
+      </div>
     </div>
   </div>
 </section>
@@ -286,6 +292,37 @@
     font-size: 0.7rem;
     color: var(--text-3);
     margin-top: 2px;
+  }
+  
+  .spacer {
+    visibility: hidden;
+  }
+  
+  .graffity-wrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i) * 0.05s);
+    position: relative;
+  }
+  
+  .grid.visible .graffity-wrapper {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .graffity {
+    position: absolute;
+    width: 350px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
   
   /* Modal */
