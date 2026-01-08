@@ -40,9 +40,9 @@
       
       setTimeout(() => {
         window.close();
-        // fallback
-        setTimeout(() => closeModal(), 500);
-      }, 2000);
+        // fallback - close modal after audio finishes (1 sec)
+        setTimeout(() => closeModal(), 1000);
+      }, 800);
     }, 2000);
   }
   
