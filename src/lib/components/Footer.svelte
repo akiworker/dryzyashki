@@ -1,3 +1,9 @@
+<script lang="ts">
+  import { useI18n } from '$lib/i18n';
+
+  const i18n = useI18n();
+</script>
+
 <footer>
   <div class="container">
     <div class="top">
@@ -6,24 +12,24 @@
           <img src="/favicon.webp" alt="" />
           <span>dryzyashki</span>
         </div>
-        <p class="tagline">Discord сообщество для игр и общения</p>
+        <p class="tagline">{i18n.t.footer.tagline}</p>
       </div>
       
       <div class="links">
         <div class="col">
-          <h4>Навигация</h4>
-          <a href="#features">Возможности</a>
-          <a href="#team">Команда</a>
+          <h4>{i18n.t.footer.nav}</h4>
+          <a href="#features">{i18n.t.footer.features}</a>
+          <a href="#team">{i18n.t.footer.team}</a>
         </div>
         <div class="col">
-          <h4>Ссылки</h4>
+          <h4>{i18n.t.footer.links}</h4>
           <a href="https://discord.gg/CP9ajwY3Ww" target="_blank" rel="noopener">Discord</a>
         </div>
       </div>
     </div>
     <div class="bottom">
       <span>© 2025 dryzyashki</span>
-      <span class="made-by">made by <a href="https://github.com/denys-shatin" target="_blank" rel="noopener">shatin</a></span>
+      <span class="made-by">{i18n.t.footer.madeBy} <a href="https://github.com/denys-shatin" target="_blank" rel="noopener">shatin</a></span>
     </div>
   </div>
 </footer>

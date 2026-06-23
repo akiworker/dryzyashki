@@ -3,6 +3,9 @@
   import * as THREE from 'three';
   import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import { useI18n } from '$lib/i18n';
+  
+  const i18n = useI18n();
   
   let container: HTMLDivElement;
   let showModal = $state(false);
@@ -153,17 +156,19 @@
   });
 </script>
 
+<svelte:window onkeydown={(e) => showModal && e.key === 'Escape' && closeModal()} />
+
 <section id="fish">
   <div class="container">
-    <h2>Наш талисман</h2>
+    <h2>{i18n.t.fish.title}</h2>
     <div class="model-wrapper" bind:this={container}></div>
     <div class="buy-section">
-      <button class="buy-btn" onclick={openModal}>Купить</button>
-      <span class="price">150 TON ≈ $450</span>
+      <button class="buy-btn" onclick={openModal}>{i18n.t.fish.buy}</button>
+      <span class="price">{i18n.t.fish.price}</span>
     </div>
     
     <div class="socials">
-      <p class="socials-text">Наш проект поддерживает</p>
+      <p class="socials-text">{i18n.t.fish.socials}</p>
       <div class="socials-icons">
         <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -191,27 +196,14 @@
 </section>
 
 {#if showModal}
-  <div 
-    class="modal-overlay" 
-    class:closing 
-    onclick={closeModal}
-    onkeydown={(e) => e.key === 'Escape' && closeModal()}
-    role="dialog"
-    aria-modal="true"
-    tabindex="-1"
-  >
-    <div 
-      class="modal" 
-      class:closing 
-      onclick={(e) => e.stopPropagation()}
-      onkeydown={(e) => e.stopPropagation()}
-      role="document"
-    >
+  <div class="modal-overlay" class:closing role="dialog" aria-modal="true">
+    <button type="button" class="modal-backdrop" onclick={closeModal} aria-label={i18n.t.fish.close}></button>
+    <div class="modal" class:closing>
       {#if confirmed}
-        <div class="fuck-you">ИДИ НАХУЙ</div>
+        <div class="fuck-you">{i18n.t.fish.confirmed}</div>
       {:else if processing}
         <div class="processing">
-          <p>Обработка...</p>
+          <p>{i18n.t.fish.processing}</p>
           <div class="ispinner">
             {#each Array(8) as _}
               <div class="ispinner-blade"></div>
@@ -219,11 +211,11 @@
           </div>
         </div>
       {:else}
-        <h3>Подтвердить покупку?</h3>
-        <p class="modal-price">150 TON ≈ $450</p>
+        <h3>{i18n.t.fish.confirmTitle}</h3>
+        <p class="modal-price">{i18n.t.fish.price}</p>
         <div class="modal-buttons">
-          <button class="confirm-btn" onclick={confirm}>Подтвердить</button>
-          <button class="cancel-btn" onclick={closeModal}>Отмена</button>
+          <button class="confirm-btn" onclick={confirm}>{i18n.t.fish.confirm}</button>
+          <button class="cancel-btn" onclick={closeModal}>{i18n.t.fish.cancel}</button>
         </div>
       {/if}
     </div>
@@ -327,17 +319,28 @@
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: default;
+    pointer-events: auto;
     animation: overlayIn 0.25s ease;
   }
-  
-  .modal-overlay.closing {
+
+  .modal-overlay.closing .modal-backdrop {
     animation: overlayOut 0.2s ease forwards;
   }
   
@@ -354,6 +357,8 @@
   .modal {
     text-align: center;
     position: relative;
+    z-index: 1;
+    pointer-events: auto;
     animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     max-width: 360px;
     width: 90%;

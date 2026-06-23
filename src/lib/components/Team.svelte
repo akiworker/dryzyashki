@@ -1,23 +1,23 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { useI18n } from '$lib/i18n';
   
+  const i18n = useI18n();
+
   const team = [
-    { name: 'Kup11d0n', role: 'Создатель', avatar: '/Ludi/Owner/avatar1.webp', sub: '' },
-    { name: 'Zeat', role: 'Админ', avatar: '/Ludi/Admin/avatar1.webp', sub: '' },
-    { name: 'Whyheavens', role: 'Админ', avatar: '/Ludi/Admin/avatar2.webp', sub: 'лох' },
-    { name: 'M1psek', role: 'Модератор', avatar: '/Ludi/Moder/avatar1.webp', sub: '' },
-    { name: 'F1sher', role: 'Хелпер', avatar: '/Ludi/Helper/avatar1.webp', sub: '' },
-    { name: 'Zarek', role: 'Хелпер', avatar: '/Ludi/Helper/avatar2.webp', sub: '' },
-    { name: 'MishaLeps', role: 'Хелпер', avatar: '/Ludi/Helper/avatar3.webp', sub: '' }
+    { name: 'Kup11d0n', roleKey: 'creator' as const, avatar: '/Ludi/Owner/avatar1.webp', subKey: null },
+    { name: 'Zeat', roleKey: 'admin' as const, avatar: '/Ludi/Admin/avatar1.webp', subKey: null },
+    { name: 'Whyheavens', roleKey: 'admin' as const, avatar: '/Ludi/Admin/avatar2.webp', subKey: 'loh' as const }
   ];
   
+  const BSOD_THROW_THRESHOLD = 45;
+
   let visible = $state(false);
   let el: HTMLElement;
   let selectedMember = $state<typeof team[0] | null>(null);
   let closing = $state(false);
-  let tomatoes = $state<{id: number, x: number, y: number}[]>([]);
-  let splatters = $state<{id: number, x: number, y: number}[]>([]);
-  let tomatoId = 0;
+  let throws = $state<{ id: number; x: number; y: number }[]>([]);
+  let nextThrowId = 0;
   let throwCount = $state(0);
   let showBSOD = $state(false);
   let bsodPercent = $state(0);
@@ -26,8 +26,7 @@
   function openModal(member: typeof team[0]) {
     selectedMember = member;
     closing = false;
-    tomatoes = [];
-    splatters = [];
+    throws = [];
     throwCount = 0;
   }
   
@@ -36,18 +35,38 @@
     setTimeout(() => {
       selectedMember = null;
       closing = false;
-      tomatoes = [];
-      splatters = [];
+      throws = [];
       throwCount = 0;
     }, 200);
   }
+
+  function removeThrow(id: number) {
+    throws = throws.filter((t) => t.id !== id);
+  }
+
+  function autoPlay(node: HTMLVideoElement, id: number) {
+    node.play().catch(() => removeThrow(id));
+    return {
+      destroy() {
+        node.pause();
+      }
+    };
+  }
   
+  function randomThrowOffset() {
+    const spread = 80;
+    const baseY = 55;
+    return {
+      x: Math.round((Math.random() - 0.5) * spread * 2),
+      y: Math.round((Math.random() - 0.5) * spread * 2) + baseY
+    };
+  }
+
   function throwTomato() {
-    const id = tomatoId++;
     throwCount++;
     
     // BSOD Easter egg
-    if (throwCount >= 15) {
+    if (throwCount >= BSOD_THROW_THRESHOLD) {
       showBSOD = true;
       bsodPercent = 0;
       bsodClosing = false;
@@ -74,27 +93,8 @@
       }, 4000);
       return;
     }
-    
-    // Random position for splatter
-    const x = 20 + Math.random() * 60;
-    const y = 20 + Math.random() * 60;
-    
-    tomatoes = [...tomatoes, { id, x, y }];
-    
-    setTimeout(() => {
-      // Play squash sound
-      const audio = new Audio('/tomato-squash.mp3');
-      audio.volume = 0.5;
-      audio.play();
-      
-      splatters = [...splatters, { id, x, y }];
-      tomatoes = tomatoes.filter(t => t.id !== id);
-      
-      // Remove splatter after fade
-      setTimeout(() => {
-        splatters = splatters.filter(s => s.id !== id);
-      }, 800);
-    }, 350);
+
+    throws = [...throws, { id: nextThrowId++, ...randomThrowOffset() }];
   }
   
   onMount(() => {
@@ -104,10 +104,12 @@
   });
 </script>
 
+<svelte:window onkeydown={(e) => selectedMember && e.key === 'Escape' && closeModal()} />
+
 <section id="team" bind:this={el}>
   <div class="container">
-    <h2 class:visible>Команда</h2>
-    <p class="subtitle" class:visible>Люди, которые делают сервер лучше <span class="hint">(тыкни на аватарку)</span></p>
+    <h2 class:visible>{i18n.t.team.title}</h2>
+    <p class="subtitle" class:visible>{i18n.t.team.subtitle} <span class="hint">{i18n.t.team.hint}</span></p>
     
     <div class="grid" class:visible>
       {#each team as member, i}
@@ -118,40 +120,21 @@
         >
           <img src={member.avatar} alt={member.name} />
           <span class="name">{member.name}</span>
-          <span class="role">{member.role}</span>
-          {#if member.sub}
-            <span class="sub">{member.sub}</span>
+          <span class="role">{i18n.t.team.roles[member.roleKey]}</span>
+          {#if member.subKey}
+            <span class="sub">{i18n.t.team.subs[member.subKey]}</span>
           {/if}
         </button>
       {/each}
-      
-      <div class="spacer"></div>
-      
-      <div class="graffity-wrapper" class:visible style="--i: 7">
-        <img src="/graffity.webp" alt="Graffity" class="graffity" />
-      </div>
     </div>
   </div>
 </section>
 
 {#if selectedMember}
-  <div 
-    class="modal-overlay" 
-    class:closing 
-    onclick={closeModal}
-    onkeydown={(e) => e.key === 'Escape' && closeModal()}
-    role="dialog"
-    aria-modal="true"
-    tabindex="-1"
-  >
-    <div 
-      class="modal" 
-      class:closing 
-      onclick={(e) => e.stopPropagation()}
-      onkeydown={(e) => e.stopPropagation()}
-      role="document"
-    >
-      <button class="close" onclick={closeModal} aria-label="Закрыть">
+  <div class="modal-overlay" class:closing role="dialog" aria-modal="true">
+    <button type="button" class="modal-backdrop" onclick={closeModal} aria-label={i18n.t.team.close}></button>
+    <div class="modal" class:closing>
+      <button class="close" onclick={closeModal} aria-label={i18n.t.team.close}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
           <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
@@ -162,23 +145,27 @@
           src={selectedMember.avatar} 
           alt={selectedMember.name} 
           class="avatar"
-          class:dirty={splatters.length > 0}
         />
-        
-        {#each splatters as splat (splat.id)}
-          <div class="splat" style="left: {splat.x}%; top: {splat.y}%"></div>
-        {/each}
-        
-        {#each tomatoes as tomato (tomato.id)}
-          <div class="tomato" style="--tx: {tomato.x}%; --ty: {tomato.y}%"></div>
+
+        {#each throws as t (t.id)}
+          <video
+            class="throw-video"
+            style="--offset-x: {t.x}px; --offset-y: {t.y}px;"
+            src="/tomatothrow.webm"
+            playsinline
+            preload="auto"
+            aria-hidden="true"
+            use:autoPlay={t.id}
+            onended={() => removeThrow(t.id)}
+          ></video>
         {/each}
       </div>
       
       <h3>{selectedMember.name}</h3>
-      <span class="role-label">{selectedMember.role}</span>
+      <span class="role-label">{i18n.t.team.roles[selectedMember.roleKey]}</span>
       
       <button class="action-btn" onclick={throwTomato}>
-        Кинуть помидор
+        {i18n.t.team.throwTomato}
       </button>
     </div>
   </div>
@@ -294,55 +281,32 @@
     margin-top: 2px;
   }
   
-  .spacer {
-    visibility: hidden;
-  }
-  
-  .graffity-wrapper {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: calc(var(--i) * 0.05s);
-    position: relative;
-  }
-  
-  .grid.visible .graffity-wrapper {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .graffity {
-    position: absolute;
-    width: 350px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    user-select: none;
-    -webkit-user-drag: none;
-    pointer-events: none;
-  }
-  
   /* Modal */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: none;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: default;
+    pointer-events: auto;
     animation: overlayIn 0.25s ease;
   }
-  
-  .modal-overlay.closing {
+
+  .modal-overlay.closing .modal-backdrop {
     animation: overlayOut 0.2s ease forwards;
   }
   
@@ -359,6 +323,9 @@
   .modal {
     text-align: center;
     position: relative;
+    z-index: 1;
+    pointer-events: auto;
+    overflow: visible;
     animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     max-width: 320px;
     width: 90%;
@@ -423,6 +390,7 @@
     margin-bottom: 20px;
     width: 160px;
     height: 160px;
+    overflow: visible;
   }
   
   .avatar {
@@ -430,11 +398,18 @@
     height: 160px;
     border-radius: 50%;
     object-fit: cover;
-    transition: filter 0.3s;
   }
-  
-  .avatar.dirty {
-    filter: brightness(0.85);
+
+  .throw-video {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 700px;
+    height: 700px;
+    transform: translate(calc(-50% + var(--offset-x, 0px)), calc(-50% + var(--offset-y, 0px)));
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 10;
   }
   
   .modal h3 {
@@ -468,73 +443,6 @@
   }
   .action-btn:active {
     transform: scale(0.97);
-  }
-  
-  /* Tomato */
-  .tomato {
-    position: absolute;
-    left: var(--tx);
-    top: var(--ty);
-    width: 40px;
-    height: 40px;
-    margin-left: -20px;
-    margin-top: -20px;
-    background: radial-gradient(circle at 35% 35%, #ff6b6b, #dc2626 60%, #991b1b);
-    border-radius: 50%;
-    box-shadow: inset -3px -3px 8px rgba(0,0,0,0.3), 0 4px 15px rgba(0,0,0,0.3);
-    animation: fly 0.35s cubic-bezier(0.2, 0, 0.3, 1) forwards;
-    pointer-events: none;
-    z-index: 10;
-  }
-  
-  .tomato::before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 6px;
-    height: 6px;
-    background: #22c55e;
-    border-radius: 2px;
-  }
-  
-  @keyframes fly {
-    0% {
-      transform: translateY(120px) scale(0.3);
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(0) scale(1);
-      opacity: 0;
-    }
-  }
-  
-  /* Splat */
-  .splat {
-    position: absolute;
-    width: 45px;
-    height: 45px;
-    background: radial-gradient(ellipse at center, #dc2626 0%, #b91c1c 40%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    animation: splatAnim 0.8s ease-out forwards;
-    pointer-events: none;
-  }
-  
-  @keyframes splatAnim {
-    0% { 
-      transform: translate(-50%, -50%) scale(0); 
-      opacity: 1; 
-    }
-    20% { 
-      transform: translate(-50%, -50%) scale(1.2); 
-      opacity: 0.9; 
-    }
-    100% { 
-      transform: translate(-50%, -50%) scale(1.5); 
-      opacity: 0; 
-    }
   }
   
   /* BSOD */

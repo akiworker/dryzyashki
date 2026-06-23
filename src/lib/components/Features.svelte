@@ -1,12 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { useI18n } from '$lib/i18n';
   
-  const items = [
-    { title: 'Общение', desc: 'Обсуждай что угодно — от игр до философии' },
-    { title: 'Друзья', desc: 'Находи людей по интересам' },
-    { title: 'Игры', desc: 'Собирай команду и играй вместе' }
-  ];
-  
+  const i18n = useI18n();
   let visible = $state(false);
   let el: HTMLElement;
   
@@ -19,10 +15,10 @@
 
 <section id="features" bind:this={el}>
   <div class="container">
-    <h2 class:visible>Что внутри</h2>
+    <h2 class:visible>{i18n.t.features.title}</h2>
     
     <div class="cards" class:visible>
-      {#each items as item, i}
+      {#each i18n.t.features.items as item, i}
         <div class="card" style="--i: {i}">
           <h3>{item.title}</h3>
           <p>{item.desc}</p>

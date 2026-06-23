@@ -1,9 +1,31 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="Dryzyashki - твоё новое любимое комьюнити для игр и общения. Присоединяйся к дружелюбному Discord серверу!">
+		<script>
+			(function () {
+				var key = 'dryzyashki-lang';
+				var stored = localStorage.getItem(key);
+				if (stored === 'ru' || stored === 'en') {
+					document.documentElement.lang = stored;
+					return;
+				}
+
+				var russianLangs = ['ru', 'uk', 'be', 'kk', 'ky', 'tg', 'uz', 'az', 'hy', 'mn', 'mo'];
+				var languages = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
+
+				for (var i = 0; i < languages.length; i++) {
+					var code = languages[i].toLowerCase().split('-')[0];
+					if (russianLangs.indexOf(code) !== -1) {
+						document.documentElement.lang = 'ru';
+						return;
+					}
+				}
+
+				document.documentElement.lang = 'en';
+			})();
+		</script>
 		<link rel="icon" type="image/webp" href="/favicon.webp">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

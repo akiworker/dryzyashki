@@ -9,6 +9,7 @@
   import Footer from '$lib/components/Footer.svelte';
   import Background from '$lib/components/Background.svelte';
   import Cursor from '$lib/components/Cursor.svelte';
+  import LoxStickers from '$lib/components/LoxStickers.svelte';
 </script>
 
 <LoadingScreen />
@@ -18,6 +19,7 @@
 <div class="page">
   <Header />
   <main>
+    <LoxStickers />
     <Hero />
     <Marquee />
     <Features />
@@ -32,6 +34,17 @@
     position: relative; 
     z-index: 1;
     cursor: none;
+  }
+
+  main {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* только секции контента — не трогаем fixed-модалки */
+  main :global(> :not(.lox-layer):not(.modal-overlay):not(.bsod)) {
+    position: relative;
+    z-index: 1;
   }
   
   :global(body) {
